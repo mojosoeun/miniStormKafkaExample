@@ -36,7 +36,7 @@ public class TestProducer {
     }
 	private void run() throws InterruptedException {
 		OnlyLogListenter onlyLogListenter = new OnlyLogListenter(producer);
-        Tailer tailer = Tailer.create(new File("/home/soeun/workspace/onlysamplelog.log"), onlyLogListenter,SLEEP);
+        Tailer tailer = Tailer.create(new File("your file"), onlyLogListenter,SLEEP);
         while(true){
         	Thread.sleep(SLEEP);
         }

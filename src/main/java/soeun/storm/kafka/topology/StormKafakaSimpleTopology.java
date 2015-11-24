@@ -22,7 +22,7 @@ public class StormKafakaSimpleTopology {
    
     public static void main(String[] args) throws Exception {
 
-        String zkUrl = "192.168.0.11:2181";        // the defaults.
+        String zkUrl = "zookeeper url:2181";        // zookeeper url 
         String brokerUrl = "localhost:9092";
 
         if (args.length > 2 || (args.length == 1 && args[0].matches("^-h|--help$"))) {
@@ -43,8 +43,8 @@ public class StormKafakaSimpleTopology {
         spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
         KafkaSpout kafkaSpout = new KafkaSpout(spoutConfig);
         TopologyBuilder builder = new TopologyBuilder();
-		builder.setSpout("spout4", kafkaSpout, 1);
-		builder.setBolt("cutbolt", new CutLogBolt(), 8).shuffleGrouping("spout4");
+		builder.setSpout("spout", kafkaSpout, 1);
+		builder.setBolt("cutbolt", new CutLogBolt(), 8).shuffleGrouping("spout");
 		builder.setBolt("classifybolt", new ClassifyKeyBolt(), 8).fieldsGrouping("cutbolt",new Fields("key","doctype"));
 		builder.setBolt("docbolt", new DoctypeCountBolt(), 8).fieldsGrouping("classifybolt",new Fields("subdoctype"));
 		
@@ -59,23 +59,25 @@ public class StormKafakaSimpleTopology {
 			StormSubmitter.submitTopologyWithProgressBar(args[0], conf, builder.createTopology());
 		}
 		else {
-//			conf.setMaxTaskParallelism(3);
 
+			//=============================
+			//	local mode
+			//=============================
 //			LocalCluster cluster = new LocalCluster();
 //			cluster.submitTopology("log-stat", conf, builder.createTopology());
 //			Thread.sleep(10000);
 //			cluster.shutdown();
 			
-			//conf.put(Config.NIMBUS_HOST, "127.0.0.1");
-			conf.put(Config.NIMBUS_HOST, "192.168.0.11");
-			conf.put(Config.STORM_LOCAL_DIR,"/home/soeun/Downloads/apache-storm-0.9.5");
+			//=============================
+			//	cluster mode
+			//=============================
+			conf.put(Config.NIMBUS_HOST, "nimbus url");
+			conf.put(Config.STORM_LOCAL_DIR,"your storm local dir");
 			conf.put(Config.NIMBUS_THRIFT_PORT,6627);
 			conf.put(Config.STORM_ZOOKEEPER_PORT,2181);
-			conf.put(Config.STORM_ZOOKEEPER_SERVERS,Arrays.asList(new String[] {"192.168.0.11"}));
-
+			conf.put(Config.STORM_ZOOKEEPER_SERVERS,Arrays.asList(new String[] {"zookeeper url"}));
 //			conf.setNumWorkers(20);
 //			conf.setMaxSpoutPending(5000);
-//			StormSubmitter submitter = new StormSubmitter();
 			StormSubmitter.submitTopology("onlytest", conf, builder.createTopology());
 
 		}

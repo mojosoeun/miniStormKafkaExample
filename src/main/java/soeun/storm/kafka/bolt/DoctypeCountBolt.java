@@ -24,7 +24,7 @@ public class DoctypeCountBolt extends BaseBasicBolt {
 		count++;
 		
 		docMap.put(doctype, count);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@222" + docMap);
+		System.out.println(docMap);
 		collector.emit(new Values(docMap));
 		
 	}
