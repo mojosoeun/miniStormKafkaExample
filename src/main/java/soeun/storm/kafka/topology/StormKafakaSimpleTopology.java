@@ -51,7 +51,7 @@ public class StormKafakaSimpleTopology {
 		Config conf = new Config();
 		conf.setDebug(true);
 		List<String> nimbus_seeds = new ArrayList<String>();
-		nimbus_seeds.add("192.168.0.11");
+		nimbus_seeds.add("nimbus url");
 
 		if (args != null && args.length > 0) {
 			conf.setNumWorkers(3);
