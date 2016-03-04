@@ -1,4 +1,4 @@
 # miniStormKafkaExample
 
-#Document
+#Tutorial
 http://mojosoeun.tistory.com/119
