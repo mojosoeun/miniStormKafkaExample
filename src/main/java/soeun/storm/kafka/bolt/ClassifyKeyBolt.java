@@ -9,7 +9,6 @@ import backtype.storm.tuple.Values;
 
 public class ClassifyKeyBolt extends BaseBasicBolt{
 
-	@Override
 	public void execute(Tuple input, BasicOutputCollector collector) {
 		String[] splitdoctype = input.getStringByField("doctype").split(":");
 		String[] splitkey = input.getStringByField("key").split(":");
@@ -18,11 +17,10 @@ public class ClassifyKeyBolt extends BaseBasicBolt{
 			String key  = splitkey[1].trim();
 //			System.err.println(key + ":" + doctype);
 			collector.emit(new Values(key + ":" + doctype));
-			
+
 		}
 	}
 
-	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("subdoctype"));
 	}
