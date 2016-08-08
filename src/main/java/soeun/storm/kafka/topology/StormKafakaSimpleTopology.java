@@ -19,10 +19,10 @@ import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.tuple.Fields;
 
 public class StormKafakaSimpleTopology {
-   
+
     public static void main(String[] args) throws Exception {
 
-        String zkUrl = "zookeeper url:2181";        // zookeeper url 
+        String zkUrl = "zookeeper url:2181";        // zookeeper url
         String brokerUrl = "localhost:9092";
 
         if (args.length > 2 || (args.length == 1 && args[0].matches("^-h|--help$"))) {
@@ -47,7 +47,7 @@ public class StormKafakaSimpleTopology {
 		builder.setBolt("cutbolt", new CutLogBolt(), 8).shuffleGrouping("spout");
 		builder.setBolt("classifybolt", new ClassifyKeyBolt(), 8).fieldsGrouping("cutbolt",new Fields("key","doctype"));
 		builder.setBolt("docbolt", new DoctypeCountBolt(), 8).fieldsGrouping("classifybolt",new Fields("subdoctype"));
-		
+
 		Config conf = new Config();
 		conf.setDebug(true);
 		List<String> nimbus_seeds = new ArrayList<String>();
@@ -67,7 +67,7 @@ public class StormKafakaSimpleTopology {
 //			cluster.submitTopology("log-stat", conf, builder.createTopology());
 //			Thread.sleep(10000);
 //			cluster.shutdown();
-			
+
 			//=============================
 			//	cluster mode
 			//=============================
@@ -78,9 +78,11 @@ public class StormKafakaSimpleTopology {
 			conf.put(Config.STORM_ZOOKEEPER_SERVERS,Arrays.asList(new String[] {"zookeeper url"}));
 //			conf.setNumWorkers(20);
 //			conf.setMaxSpoutPending(5000);
+      //storm.jar를 종종 인식을 못하는 경우 STORM_LOCAL_DIR 안의 storm-core-1.0.1.jar를 추가해주어야한다.
+			System.setProperty("storm.jar", "/usr/local/Cellar/storm/1.0.1/libexec/lib/storm-core-1.0.1.jar");
 			StormSubmitter.submitTopology("onlytest", conf, builder.createTopology());
 
 		}
 	}
- 
+
 }
