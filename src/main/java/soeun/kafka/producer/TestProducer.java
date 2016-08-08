@@ -52,7 +52,7 @@ public class TestProducer {
 		@Override
 		public void handle(String line){
 			 System.err.println(line);
-			 ProducerRecord<String, String> message =new ProducerRecord<String, String>("onlytest","Hello World!");
+			 ProducerRecord<String, String> message =new ProducerRecord<String, String>("onlytest", line);
 		     producer.send(message);
 		}
 	}
