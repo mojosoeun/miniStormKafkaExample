@@ -1,11 +1,11 @@
-package soeun.storm.kafka.bolt;
+package enow.storm.kafka.bolt;
 
-import backtype.storm.topology.BasicOutputCollector;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.base.BaseBasicBolt;
-import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Tuple;
-import backtype.storm.tuple.Values;
+import org.apache.storm.topology.BasicOutputCollector;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.topology.base.BaseBasicBolt;
+import org.apache.storm.tuple.Fields;
+import org.apache.storm.tuple.Tuple;
+import org.apache.storm.tuple.Values;
 
 public class CutLogBolt extends BaseBasicBolt{
 
@@ -19,11 +19,12 @@ public class CutLogBolt extends BaseBasicBolt{
 			if(splitArray[i].contains("doctype"))
 				doctype = splitArray[i];
 		}
+		System.out.println(key);
+		System.out.println(doctype);
 		collector.emit(new Values(key,doctype));
 	}
 
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
-		declarer.declare(new Fields("key","doctype"));
+//		declarer.declare(new Fields("key","doctype"));
 	}
-
 }
