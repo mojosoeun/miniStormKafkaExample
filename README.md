@@ -11,17 +11,17 @@ Below two Repositories and Tutorials help you install powerful open source distr
 
 ## To do list
 
-In the latest version, the class packages have been changed from "backtype.storm" to "org.apache.storm" and Storm can not properly support Apache-Kafka-0.10.0.0 or higher version of Kafka.
+In the latest version, the class packages have been changed from ```backtype.storm``` to ```org.apache.storm``` and Storm can not properly support ```Apache-Kafka-0.10.0.0``` or __higher version of Kafka__.
 
 These are the new features you should expect in the coming
 months:
 
 
 
-* [x] Support "org.apache.storm" class packages instead of "backtype.storm"
-* [x] Support easy installation of Apache Kafka<sub>0.9.0.1</sub> Zookeeper<sub>3.4.8</sub> and Storm<sub>1.0.2</sub> via Docker
-* [ ] Support Storm-Kafka-Client(0.10.0.0) or Storm-Kafka(0.9.0.1) for Kafka Integration.
-* [ ] Support Trident Topology for powerful batch processing.
+* [x] Support ```org.apache.storm``` class packages instead of ```backtype.storm```
+* [x] Support easy installation of ```Apache Kafka```<sub>0.9.0.1</sub> ```Apache Zookeeper```<sub>3.4.8</sub> and ```Apache Storm```<sub>1.0.2</sub> via ```Docker```
+* [ ] Support ```Storm-Kafka-Client```<sub>0.10.0.0</sub> or ```Storm-Kafka```<sub>0.9.0.1</sub> for Kafka Integration.
+* [ ] Support ```Trident Topology``` for powerful batch processing.
 * [ ] Add more Integrations.
 
 
