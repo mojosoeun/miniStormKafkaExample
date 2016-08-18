@@ -20,7 +20,8 @@ months:
 
 * [x] Support ```org.apache.storm``` class packages instead of ```backtype.storm```
 * [x] Support easy installation of ```Apache Kafka```<sub>0.9.0.1</sub> ```Apache Zookeeper```<sub>3.4.8</sub> and ```Apache Storm```<sub>1.0.2</sub> via ```Docker```
-* [ ] Support ```Storm-Kafka-Client```<sub>0.10.0.0</sub> or ```Storm-Kafka```<sub>0.9.0.1</sub> for Kafka Integration.
+* [x] Support ```Storm-Kafka-Client```<sub>0.10.0.0</sub> or ```Storm-Kafka```<sub>0.9.0.1</sub> for Kafka Integration.
+* [ ] Correct Bolt errors
 * [ ] Support ```Trident Topology``` for powerful batch processing.
 * [ ] Add more Integrations.
 
