@@ -1,4 +1,4 @@
-package enow.storm.kafka.bolt;
+package soeun.storm.kafka.bolt;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,6 @@ public class DoctypeCountBolt extends BaseBasicBolt {
 		docMap.put(doctype, count);
 		System.out.println(docMap);
 		collector.emit(new Values(docMap));
-
 	}
 
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {

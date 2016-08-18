@@ -1,4 +1,4 @@
-package enow.storm.kafka.bolt;
+package soeun.storm.kafka.bolt;
 
 import org.apache.storm.topology.BasicOutputCollector;
 import org.apache.storm.topology.OutputFieldsDeclarer;

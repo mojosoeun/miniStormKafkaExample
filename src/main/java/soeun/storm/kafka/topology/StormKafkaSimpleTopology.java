@@ -1,13 +1,13 @@
-package enow.storm.kafka.topology;
+package soeun.storm.kafka.topology;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import enow.storm.kafka.bolt.ClassifyKeyBolt;
-import enow.storm.kafka.bolt.CutLogBolt;
-import enow.storm.kafka.bolt.DoctypeCountBolt;
+import soeun.storm.kafka.bolt.ClassifyKeyBolt;
+import soeun.storm.kafka.bolt.CutLogBolt;
+import soeun.storm.kafka.bolt.DoctypeCountBolt;
 import org.apache.storm.kafka.KafkaSpout;
 import org.apache.storm.kafka.SpoutConfig;
 import org.apache.storm.kafka.StringScheme;
@@ -18,7 +18,7 @@ import org.apache.storm.spout.SchemeAsMultiScheme;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.tuple.Fields;
 
-public class StormKafakaSimpleTopology {
+public class StormKafkaSimpleTopology {
 
 	public static void main(String[] args) throws Exception {
 
@@ -39,15 +39,14 @@ public class StormKafakaSimpleTopology {
 		System.out.println("Using Kafka zookeeper url: " + zkUrl + " broker url: " + brokerUrl);
 
 		ZkHosts hosts = new ZkHosts(zkUrl);
-		SpoutConfig spoutConfig = new SpoutConfig(hosts, "onlytest", "/onlytest", UUID.randomUUID().toString());
+		SpoutConfig spoutConfig = new SpoutConfig(hosts, "test", "/test", UUID.randomUUID().toString());
 		spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
 		KafkaSpout kafkaSpout = new KafkaSpout(spoutConfig);
 		TopologyBuilder builder = new TopologyBuilder();
-		builder.setSpout("spout", kafkaSpout, 1);
-		builder.setBolt("cutbolt", new CutLogBolt(), 1).shuffleGrouping("spout");
-		builder.setBolt("classifybolt", new ClassifyKeyBolt(), 8).fieldsGrouping("cutbolt",
-				new Fields("key", "doctype"));
-		builder.setBolt("docbolt", new DoctypeCountBolt(), 8).fieldsGrouping("classifybolt", new Fields("subdoctype"));
+		builder.setSpout("kafkaspout", kafkaSpout, 1);
+		builder.setBolt("cutbolt", new CutLogBolt(), 1).shuffleGrouping("kafkaspout");
+//		builder.setBolt("classifybolt", new ClassifyKeyBolt(), 8).fieldsGrouping("cutbolt", new Fields("key", "doctype"));
+//		builder.setBolt("docbolt", new DoctypeCountBolt(), 8).fieldsGrouping("classifybolt", new Fields("subdoctype"));
 
 		Config conf = new Config();
 		conf.setDebug(true);
@@ -72,8 +71,9 @@ public class StormKafakaSimpleTopology {
 			// =============================
 			// cluster mode
 			// =============================
-			conf.put(Config.NIMBUS_HOST, "localhost");
-			conf.put(Config.STORM_LOCAL_DIR, "/usr/local/Cellar/storm/1.0.1");
+			// NIMBUS_HOST is deprecated
+			// conf.put(Config.NIMBUS_HOST, "localhost");
+			// conf.put(Config.STORM_LOCAL_DIR, "/usr/local/Cellar/storm/1.0.1");
 			conf.put(Config.NIMBUS_THRIFT_PORT, 6627);
 			conf.put(Config.STORM_ZOOKEEPER_PORT, 2181);
 			conf.put(Config.STORM_ZOOKEEPER_SERVERS, Arrays.asList(new String[] { "localhost" })); // zookeeper
