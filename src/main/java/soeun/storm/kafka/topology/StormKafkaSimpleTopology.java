@@ -22,8 +22,8 @@ public class StormKafkaSimpleTopology {
 
 	public static void main(String[] args) throws Exception {
 
-		String zkUrl = "localhost:2181"; // zookeeper url
-		String brokerUrl = "localhost:9092";
+		String zkUrl = "192.168.99.100:2181"; // zookeeper url
+		String brokerUrl = "192.168.99.100:9092";
 
 		if (args.length > 2 || (args.length == 1 && args[0].matches("^-h|--help$"))) {
 			System.out.println("Usage: ENOW [kafka zookeeper url] [kafka broker url]");
@@ -51,13 +51,19 @@ public class StormKafkaSimpleTopology {
 		Config conf = new Config();
 		conf.setDebug(true);
 		List<String> nimbus_seeds = new ArrayList<String>();
-		nimbus_seeds.add("localhost"); // nimbus url
-
-		if (args != null && args.length > 0) {
-			conf.setNumWorkers(3);
-
-			StormSubmitter.submitTopologyWithProgressBar(args[0], conf, builder.createTopology());
-		} else {
+		// nimbus url
+		nimbus_seeds.add("192.168.99.100");
+		nimbus_seeds.add("172.17.0.4");
+		
+		List<String> zookeeper_servers = new ArrayList<String>();
+		zookeeper_servers.add("192.168.99.100");
+		zookeeper_servers.add("172.17.0.2");
+//		if (args != null && args.length > 0) {
+//			conf.setNumWorkers(3);
+//			StormSubmitter.submitTopologyWithProgressBar(args[0], conf, builder.createTopology());
+//		} 
+//		else 
+//		{
 
 			// =============================
 			// local mode
@@ -74,13 +80,14 @@ public class StormKafkaSimpleTopology {
 			// NIMBUS_HOST is deprecated
 			// conf.put(Config.NIMBUS_HOST, "localhost");
 			// conf.put(Config.STORM_LOCAL_DIR, "/usr/local/Cellar/storm/1.0.1");
+			conf.put(Config.NIMBUS_SEEDS, nimbus_seeds);
 			conf.put(Config.NIMBUS_THRIFT_PORT, 6627);
 			conf.put(Config.STORM_ZOOKEEPER_PORT, 2181);
-			conf.put(Config.STORM_ZOOKEEPER_SERVERS, Arrays.asList(new String[] { "localhost" })); // zookeeper
-																									// url
-			// conf.setNumWorkers(20);
+			conf.put(Config.STORM_ZOOKEEPER_SERVERS, zookeeper_servers);
+			conf.setDebug(true);
+			conf.setNumWorkers(5);
 			// conf.setMaxSpoutPending(5000);
-			StormSubmitter.submitTopology("onlytest", conf, builder.createTopology());
-		}
+			StormSubmitter.submitTopology("test", conf, builder.createTopology());
+//		}
 	}
 }
