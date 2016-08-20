@@ -39,7 +39,3 @@ kafka:
     KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
   volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-topology:
-  build: ./target
-  links:
-    - nimbus:nimbus
