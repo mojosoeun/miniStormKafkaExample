@@ -1,4 +1,54 @@
-# miniStormKafkaExample
+miniStormKafkaExample
+=====================
+
+Hello Apache Storm Beginners! This Repo is for you! Follow the README.md instructions and learn Apache Storm quickly!
+
+## Tutorial
+- http://mojosoeun.tistory.com/119
+
+Environment setup with [Docker](https://www.docker.io/)
+------------------------------
+
+If you are using a Mac follow the instructions [here](https://docs.docker.com/installation/mac/) to setup a docker environment.
+
+- Install [docker-compose](http://docs.docker.com/compose/install/)
+
+- Install [storm](https://storm.incubator.apache.org/downloads.html) (so you can upload your topology to the test cluster) but if you just would like to use remote cluster, you don't have to
+
+- Build for running a Storm cluster
+    - ```mvn clean package```
+- Start the test environment
+    - ```docker-compose -p storm up```
+- Start a kafka shell and From within the shell, create a topic
+    - ```start-kafka-shell.sh <Docker Ip> <Zookeeper>```
+    - ```$KAFKA_HOME/bin/kafka-topics.sh --create --topic storm-sentence --partitions 2 --zookeeper $ZK --replication-factor 1```
+- Or just add ```environment: KAFKA_CREATE_TOPICS: "test:3:1"``` in kafka of docker-compose(I already added)
+- And when the storm ui is available create another window then Start the topology builder
+    - ```docker-compose -p storm -f submitter.yml build```
+    - ```docker-compose -p storm -f submitter.yml up```
+
+For more details and troubleshooting see: <br/> [https://github.com/enow/kafka-docker](https://github.com/enow/kafka-docker) </br>
+and </br> [https://github.com/enow/storm-docker](https://github.com/enow/storm-docker)
+
+The Storm UI will be available under: ```http://<dockerIp>:8080/```
+
+The Logviewer will be available under: ```http://<dockerIp>:8000/``` <br/>e.g. ```http://<dockerIp>:8000/log?file=supervisor.log```
+
+## Producing data
+
+To feed the topologies with data, start the StormProducer (built in local mode)
+
+- ```java -cp target/enow-storm-1.0.jar com.enow.storm.tools.StormProducer <dockerIp>:<kafkaPort>```
+
+Alternatively use the kafka console producer from within the kafka shell (see above)
+
+- ```$KAFKA_HOME/bin/kafka-console-producer.sh --topic=storm-sentence --broker-list=<dockerIp>:<kafkaPort>```
+
+## Consuming data
+
+To run a DRPC query, start the DrpcClient (built in local mode)
+
+- ```java -cp target/enow-storm-1.0.jar com.enow.storm.tools.DrpcClient <dockerIp> 3772```
 
 ## Apache Kafka, Zookeeper and Storm Installation
 Below two Repositories and Tutorials help you install powerful open source distributed realtime computation system.
@@ -6,17 +56,12 @@ Below two Repositories and Tutorials help you install powerful open source distr
 - [https://github.com/Writtic/docker-storm](https://github.com/Writtic/docker-storm)
 - [https://github.com/Writtic/docker-kafka](https://github.com/Writtic/docker-kafka)
 
-## Tutorial
-- http://mojosoeun.tistory.com/119
-
 ## To do list
 
 In the latest version, the class packages have been changed from ```backtype.storm``` to ```org.apache.storm``` and Storm can not properly support ```Apache-Kafka-0.10.0.0``` or __higher version of Kafka__.
 
 These are the new features you should expect in the coming
 months:
-
-
 
 * [x] Support ```org.apache.storm``` class packages instead of ```backtype.storm```
 * [x] Support easy installation of ```Apache Kafka```<sub>0.9.0.1</sub> ```Apache Zookeeper```<sub>3.4.8</sub> and ```Apache Storm```<sub>1.0.2</sub> via ```Docker```
